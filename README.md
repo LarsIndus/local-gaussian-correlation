@@ -23,6 +23,8 @@ a "localgauss" object.
 The function "plot_localgauss_diagonal" takes two-dimensional data as input and calculates local Gaussian correlation
 estimates along the diagonal, again by using the "localgauss" package. It then outputs a line plot.
 
+More information about these functions is given in the respective code.
+
 
 ## Reproduce Figures from Thesis
 
