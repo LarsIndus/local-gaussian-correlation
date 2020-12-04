@@ -2,6 +2,10 @@
 
 library(MASS)
 library(localgauss)
+library(checkmate)
+library(magrittr)
+library(ggplot2)
+library(data.table)
 
 source("plot_localgauss.R")
 

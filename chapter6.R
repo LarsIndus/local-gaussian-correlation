@@ -3,6 +3,10 @@
 library(localgauss)
 library(copula)
 library(VineCopula)
+library(checkmate)
+library(magrittr)
+library(ggplot2)
+library(data.table)
 
 source("plot_localgauss.R")
 source("plot_localgauss_diagonal.R")

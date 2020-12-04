@@ -38,7 +38,5 @@ figures and additional calculations.
 
 ## Required Packages
 
-Both functions in this repository install required packages, if necessary, and then load them.
-This way, the user does not have to go into the code of these functions.
-The other scripts (figures and data analysis) only load required packages at the beginning.
-The user possibly has to install them first.
+All the scripts (figures and data analysis) load the necessary plotting functions at the beginning.
+Required packages are also loaded, but the user might have to install them first.

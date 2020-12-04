@@ -4,6 +4,10 @@ library(localgauss)
 library(mvtnorm)
 library(TSA)
 library(copula)
+library(checkmate)
+library(magrittr)
+library(ggplot2)
+library(data.table)
 
 source("plot_localgauss.R")
 

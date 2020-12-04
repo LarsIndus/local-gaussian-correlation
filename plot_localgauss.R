@@ -1,39 +1,48 @@
-# _____________________________________________________________________________________________________
-#
-# This function creates local Gaussian correlation heat maps for an object of type localgauss.
-# Objects of these class are created using the package localgauss.
-# If 'plot_points' is set to true, the original observations (stored in the localgauss object)
-# will be lain over.
-# If 'plot_text' is set to true, the local Gaussian correlation values will be
-# printed onto the heat map.
-#
-# _____________________________________________________________________________________________________
-
-
-if (!require(checkmate)) {
-  install.packages("checkmate")
-  library(checkmate)
-}
-
-if (!require(magrittr)) {
-  install.packages("magrittr")
-  library(magrittr)
-}
-
-if (!require(ggplot2)) {
-  install.packages("ggplot2")
-  library(checkmate)
-}
-
-if (!require(data.table)) {
-  install.packages("data.table")
-  library(data.table)
-}
-
+#' Create a heat map of local Gaussian correlation estimates
+#'
+#' @description
+#' This function takes an object of type localgauss (created with the local gauss package),
+#' i.e., estimates for the local Gaussian correlation, and visualizes them as a heat map.
+#'
+#' @param dat localgauss object created by the package localgauss.
+#' @param plot_points Logical, if TRUE, original data points are shown on the heat map
+#'   (note that they are stored in the localgauss object).
+#' @param plot_text Logical, if TRUE, the values will be printed onto the heat map.
+#' @param text_size Numeric, text size of the values that can be printed.
+#' @param points_size Numeric, size of the original points that can be shown.
+#' @param points_color Color of the original points that can be shown.
+#' @param low_color Color for the lower spectrum of the local Gaussian correlation.
+#' @param mid_color Color for the middle spectrum of the local Gaussian correlation,
+#'   i.e., around 0.
+#' @param high_color Color for the upper spectrum of the local Gaussian correlation.
+#' @return A ggplot object showing the local Gaussian correlation estimates as a heat map.
+#' 
+#' @examples
+#' \dontrun{
+#' set.seed(42)
+#' 
+#' Sample from a bivariate normal distribution:
+#'
+#' n <- 1000
+#' mean_x <- 0
+#' mean_y <- 0
+#' var_x <- 1
+#' var_y <- 1
+#' rho <- -0.7
+#' b <- 1
+#'
+#' x <- MASS::mvrnorm(n, mu = c(mean_x, mean_y),
+#'                    Sigma = matrix(c(var_x, rho, rho, var_y), ncol = 2))
+#'                    
+#' lg_normal <- localgauss(x = x[, 1], y = x[, 2], gsize = 15, b1 = b, b2 = b, hthresh = 0.01)
+#' 
+#' plot_localgauss(lg_normal, plot_text = TRUE, plot_points = FALSE)
+#' }
 
 plot_localgauss <- function(dat, plot_points = FALSE, plot_text = FALSE,
                             text_size = 3, points_size = 1, points_color = "black",
-                            low_color = "#12b5ac", mid_color = "#ffffff", high_color = "#d82051") {
+                            low_color = "#12b5ac", mid_color = "#ffffff",
+                            high_color = "#d82051") {
 
   # Check arguments:
   assert_class(dat, classes = "localgauss")
