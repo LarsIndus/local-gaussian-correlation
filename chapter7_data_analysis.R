@@ -1,19 +1,18 @@
 # Setup --------------------------------------------------------------------
 
+library(localgauss)
+library(magrittr)
+library(ggplot2)
 library(BatchGetSymbols)
 library(data.table)
-library(localgauss)
 library(fGarch)
 library(copula)
 library(VineCopula)
-library(checkmate)
-library(magrittr)
-library(ggplot2)
 
 source("plot_localgauss.R")
 source("plot_localgauss_diagonal.R")
 
-my_seed <- 42
+SEED <- 42
 
 
 # Fetch data and preprocess ------------------------------------------------
@@ -158,7 +157,7 @@ apple_gaussian_pseudo <- qnorm(pseudo_observations[, 1])
 google_gaussian_pseudo <- qnorm(pseudo_observations[, 2])
 
 # Compare to simulated t copula along the diagonal:
-set.seed(my_seed)
+set.seed(SEED)
 n <- 10000 # large sample size - long runtime!
 diag_low <- -4
 diag_high <- 4

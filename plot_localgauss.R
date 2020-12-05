@@ -19,39 +19,34 @@
 #' 
 #' @examples
 #' \dontrun{
-#' set.seed(42)
+#' library(localgauss)
+#' library(magrittr)
+#' library(ggplot2)
+#' library(mvtnorm)
 #' 
-#' Sample from a bivariate normal distribution:
-#'
-#' n <- 1000
-#' mean_x <- 0
-#' mean_y <- 0
-#' var_x <- 1
-#' var_y <- 1
-#' rho <- -0.7
-#' b <- 1
-#'
-#' x <- MASS::mvrnorm(n, mu = c(mean_x, mean_y),
-#'                    Sigma = matrix(c(var_x, rho, rho, var_y), ncol = 2))
-#'                    
-#' lg_normal <- localgauss(x = x[, 1], y = x[, 2], gsize = 15, b1 = b, b2 = b, hthresh = 0.01)
+#' # Sample from a bivariate t distribution:
 #' 
-#' plot_localgauss(lg_normal, plot_text = TRUE, plot_points = FALSE)
+#' n <- 2000
+#' df <- 5
+#' rho <- 0
+#' sigma <- matrix(c(1, rho, rho, 1), nrow = 2)
+#' b <- 0.7
+#' 
+#' x <- rmvt(n, sigma = sigma, df = df)
+#' lg_t <- localgauss(x = x[, 1], y = x[, 2], gsize = 60, b1 = b, b2 = b, hthresh = 0.008)
+#' 
+#' plot_localgauss(lg_t, plot_text = TRUE, plot_points = FALSE)
 #' }
 
 plot_localgauss <- function(dat, plot_points = FALSE, plot_text = FALSE,
                             text_size = 3, points_size = 1, points_color = "black",
                             low_color = "#12b5ac", mid_color = "#ffffff",
                             high_color = "#d82051") {
-
-  # Check arguments:
-  assert_class(dat, classes = "localgauss")
-  assert_logical(c(plot_points, plot_text))
   
-  original_points <- data.table(x = dat$x, y = dat$y)
+  original_points <- data.frame(x = dat$x, y = dat$y)
   
   # Create the plot:
-  p <- data.table(x = dat$xy.mat[, 1], y = dat$xy.mat[, 2], rho = dat$par.est[, "rho"]) %>%
+  p <- data.frame(x = dat$xy.mat[, 1], y = dat$xy.mat[, 2], rho = dat$par.est[, "rho"]) %>%
     ggplot(aes(x = x, y = y)) +
     geom_tile(aes(fill = rho)) +
     scale_fill_gradient2(
@@ -59,9 +54,9 @@ plot_localgauss <- function(dat, plot_points = FALSE, plot_text = FALSE,
       midpoint = 0, limit = c(-1, 1), breaks = seq(-1, 1, 0.2),
       space = "Lab",
       name = "LGC",
-      guide = guide_colorbar(barheight = 12, raster = FALSE, nbin = 11, ticks = FALSE,
-                             frame.colour = "black", frame.linewidth = 1)
-    ) +
+      guide = guide_colorbar(
+        barheight = 12, raster = FALSE, nbin = 11, ticks = FALSE,
+        frame.colour = "black", frame.linewidth = 1)) +
     labs(title = "", x = "", y = "")
   
   # Add points and/or text:

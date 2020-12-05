@@ -1,16 +1,15 @@
 # Setup ----------------------------------------------------------------
 
-library(dplyr)
+library(magrittr)
 library(ggplot2)
-library(data.table)
 library(MASS)
 
-my_seed <- 42
+SEED <- 42
 
 
 # Outlier Behavior (Figure 1) --------------------------------------------------------
 
-set.seed(my_seed)
+set.seed(SEED)
 
 n <- 100
 z <- mvrnorm(n, mu = c(0, 0), Sigma = matrix(c(1, 0, 0, 1), ncol = 2))
@@ -40,7 +39,7 @@ data.frame(x = x, y = y) %>% ggplot(aes(x = x, y = y)) +
 
 # Correlation Coefficients for Nonmonotonic Relationship (Figure 2) ---------------------------------
 
-set.seed(my_seed)
+set.seed(SEED)
 
 n <- 200
 mean_x <- 0

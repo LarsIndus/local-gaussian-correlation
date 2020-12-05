@@ -1,17 +1,15 @@
 # Setup ----------------------------------------------------------------
 
 library(localgauss)
-library(copula)
-library(VineCopula)
-library(checkmate)
 library(magrittr)
 library(ggplot2)
-library(data.table)
+library(copula)
+library(VineCopula)
 
 source("plot_localgauss.R")
 source("plot_localgauss_diagonal.R")
 
-my_seed <- 42
+SEED <- 42
 
 
 # Copula Scatterplots and LGC heat maps (Figures 9 and 10-15) -----------------------------
@@ -20,7 +18,7 @@ n <- 500   # sample size for scatter plots
 m <- 1000  # sample size for heat maps
 
 # 1. Gaussian Copula (Figures 9 and 10)
-set.seed(my_seed)
+set.seed(SEED)
 
 rho <- 0.7
 b <- 1
@@ -48,7 +46,7 @@ gauss_mvd_gaussian_marginals <- mvdc(
   paramMargins = list(list(mean = 0, sd = 1), list(mean = 0, sd = 1))
 )
 
-set.seed(my_seed)
+set.seed(SEED)
 x <- rMvdc(mvdc = gauss_mvd_gaussian_marginals, m)
 
 lg_gauss_gaussian_marginals <- localgauss(x = x[, 1], y = x[, 2], b1 = b, b2 = b, gsize = 15)
@@ -58,7 +56,7 @@ plot_localgauss(lg_gauss_gaussian_marginals, plot_text = TRUE)
 
 
 # 2. t Copula (Figures 9 and 11)
-set.seed(my_seed)
+set.seed(SEED)
 
 rho <- 0.7
 df <- 2
@@ -87,7 +85,7 @@ t_mvd_gaussian_marginals <- mvdc(
   paramMargins = list(list(mean = 0, sd = 1), list(mean = 0, sd = 1))
 )
 
-set.seed(my_seed)
+set.seed(SEED)
 x <- rMvdc(mvdc = t_mvd_gaussian_marginals, m)
 
 lg_t_gaussian_marginals <- localgauss(x = x[, 1], y = x[, 2], b1 = b, b2 = b,
@@ -98,7 +96,7 @@ plot_localgauss(lg_t_gaussian_marginals, plot_text = TRUE)
 
 
 # 3. Clayton Copula (Figures 9 and 12)
-set.seed(my_seed)
+set.seed(SEED)
 
 theta <- 3
 b <- 1
@@ -128,7 +126,7 @@ clayton_mvd_gaussian_marginals <- mvdc(
   paramMargins = list(list(mean = 0, sd = 1), list(mean = 0, sd = 1))
 )
 
-set.seed(my_seed)
+set.seed(SEED)
 x <- rMvdc(mvdc = clayton_mvd_gaussian_marginals, m)
 
 lg_clayton_gaussian_marginals <- localgauss(x = x[, 1], y = x[, 2], b1 = b, b2 = b,
@@ -139,7 +137,7 @@ plot_localgauss(lg_clayton_gaussian_marginals, plot_text = TRUE)
   
 
 # 4. Gumbel Copula (Figures 9 and 13)
-set.seed(my_seed)
+set.seed(SEED)
 
 theta <- 2.5
 b <- 1
@@ -170,7 +168,7 @@ gumbel_mvd_gaussian_marginals <- mvdc(
   paramMargins = list(list(mean = 0, sd = 1), list(mean = 0, sd = 1))
 )
 
-set.seed(my_seed)  
+set.seed(SEED)  
 x <- rMvdc(mvdc = gumbel_mvd_gaussian_marginals, m)
 
 lg_gumbel_gaussian_marginals <- localgauss(x = x[, 1], y = x[, 2], b1 = b, b2 = b,
@@ -181,7 +179,7 @@ plot_localgauss(lg_gumbel_gaussian_marginals, plot_text = TRUE)
 
 
 # 5. Frank Copula (Figures 9 and 14)
-set.seed(my_seed)
+set.seed(SEED)
 
 theta <- 8
 b <- 1
@@ -212,7 +210,7 @@ frank_mvd_gaussian_marginals <- mvdc(
   paramMargins = list(list(mean = 0, sd = 1), list(mean = 0, sd = 1))
 )
 
-set.seed(my_seed)
+set.seed(SEED)
 x <- rMvdc(mvdc = frank_mvd_gaussian_marginals, m)
 
 lg_frank_gaussian_marginals <- localgauss(x = x[, 1], y = x[, 2], b1 = b, b2 = b,
@@ -223,7 +221,7 @@ plot_localgauss(lg_frank_gaussian_marginals, plot_text = TRUE)
 
 
 # 6. Joe Copula (Figures 9 and 15)
-set.seed(my_seed)
+set.seed(SEED)
 
 theta <- 4
 b <- 1
@@ -254,7 +252,7 @@ joe_mvd_gaussian_marginals <- mvdc(
   paramMargins = list(list(mean = 0, sd = 1), list(mean = 0, sd = 1))
 )
 
-set.seed(my_seed)
+set.seed(SEED)
 x <- rMvdc(mvdc = joe_mvd_gaussian_marginals, m)
 
 lg_joe_gaussian_marginals <- localgauss(x = x[, 1], y = x[, 2], b1 = b, b2 = b,
@@ -271,7 +269,7 @@ b <- 1
 
 
 # 1. Gaussian copula
-set.seed(my_seed)
+set.seed(SEED)
 
 rho <- 0.7
 
@@ -292,7 +290,7 @@ plot_localgauss_diagonal(x, b1 = b, b2 = b) +
 
 
 # 2. t Copula
-set.seed(my_seed)
+set.seed(SEED)
 
 rho <- 0.7
 nu <- 2
@@ -314,7 +312,7 @@ plot_localgauss_diagonal(x, b1 = b, b2 = b) +
 
 
 # 3. Clayton copula
-set.seed(my_seed)
+set.seed(SEED)
 
 theta <- 3
 
@@ -335,7 +333,7 @@ plot_localgauss_diagonal(x, b1 = b, b2 = b) +
 
 
 # 4 Gumbel Copula
-set.seed(my_seed)
+set.seed(SEED)
 
 theta <- 2.5
 
@@ -356,7 +354,7 @@ plot_localgauss_diagonal(x, b1 = b, b2 = b) +
 
 
 # 5. Frank Copula
-set.seed(my_seed)
+set.seed(SEED)
 
 theta <- 8
 
@@ -377,7 +375,7 @@ plot_localgauss_diagonal(x, b1 = b, b2 = b) +
 
 
 # 6. Joe Copula
-set.seed(my_seed)
+set.seed(SEED)
 
 theta <- 4
 

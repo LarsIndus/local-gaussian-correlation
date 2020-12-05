@@ -1,20 +1,18 @@
 # Setup ----------------------------------------------------------------
 
-library(MASS)
 library(localgauss)
-library(checkmate)
 library(magrittr)
 library(ggplot2)
-library(data.table)
+library(MASS)
 
 source("plot_localgauss.R")
 
-my_seed <- 42
+SEED <- 42
 
 
 # LGC for Normal Distribution (Figure 3) --------------------------------------------------------
 
-set.seed(my_seed)
+set.seed(SEED)
 
 n <- 1000
 mean_x <- 0
@@ -32,7 +30,7 @@ plot_localgauss(lg_normal, plot_text = TRUE, plot_points = FALSE)
 
 # LGC for Parabola -------------------------------------------------------------
 
-set.seed(my_seed)
+set.seed(SEED)
 
 n <- 1000
 mean_x <- 0

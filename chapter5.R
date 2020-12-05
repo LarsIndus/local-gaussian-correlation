@@ -1,22 +1,20 @@
 # Setup ----------------------------------------------------------------
 
 library(localgauss)
+library(magrittr)
+library(ggplot2)
 library(mvtnorm)
 library(TSA)
 library(copula)
-library(checkmate)
-library(magrittr)
-library(ggplot2)
-library(data.table)
 
 source("plot_localgauss.R")
 
-my_seed <- 42
+SEED <- 42
 
 
 # LGC for Double Parabola (Figure 5) ----------------------------------------
 
-set.seed(my_seed)
+set.seed(SEED)
 
 n <- 500
 x <- runif(n, -3, 3)
@@ -35,13 +33,13 @@ plot_localgauss(lg_double, plot_points = TRUE, points_size = 0.5)
 
 # LGC for Bivariate t Distribution (Figure 6) -------------------------------------------------------
 
-set.seed(my_seed)
+set.seed(SEED)
 
 n <- 2000
 df <- 5
-b <- 0.7
 rho <- 0
 sigma <- matrix(c(1, rho, rho, 1), nrow = 2)
+b <- 0.7
 
 x <- rmvt(n, sigma = sigma, df = df)
 lg_t <- localgauss(x = x[, 1], y = x[, 2], gsize = 60, b1 = b, b2 = b, hthresh = 0.008)
@@ -51,7 +49,7 @@ plot_localgauss(lg_t, plot_text = TRUE, plot_points = FALSE)
 
 # LGC for GARCH(1,1) Model (Figure 7) ----------------------------------------------------------
 
-set.seed(my_seed)
+set.seed(SEED)
 
 n <- 2000
 alpha <- c(0.2, 0.6)
@@ -68,7 +66,7 @@ plot_localgauss(lg_GARCH, plot_text = TRUE, plot_points = FALSE)
  
 # LGC for Clayton Copula (Figure 8) --------------------------------------------------------
 
-set.seed(my_seed)
+set.seed(SEED)
 
 n <- 500
 b <- 1

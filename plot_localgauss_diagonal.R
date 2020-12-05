@@ -5,7 +5,7 @@
 #' of a two-dimensional plane and plots the estimated values in a line plot.
 #' Default values are appropriate for standard normal marginal distributions.
 #'
-#' @param dat Bivariate input data, either a matrix, data frame or data table.
+#' @param dat Bivariate input data, either a matrix or data frame.
 #' @param diag_low Numeric, lower bound for points to be estimated/plotted.
 #' @param diag_high Numeric, upper bound for points to be estimated/plotted, i.e.,
 #'   plots are created from (diag_low, diag_low) to (diag_high, diag_high).
@@ -17,29 +17,30 @@
 #' 
 #' @examples
 #' \dontrun{
-#' set.seed(42)
+#' library(localgauss)
+#' library(magrittr)
+#' library(ggplot2)
+#' library(mvtnorm)
 #'
-#' Sample from a bivariate normal distribution:
-#'
-#' n <- 1000
-#' mean_x <- 0
-#' mean_y <- 0
-#' var_x <- 1
-#' var_y <- 1
-#' rho <- -0.7
+#' # Sample from a bivariate t distribution:
+#'  
+#' n <- 2000
+#' df <- 5
+#' rho <- 0
+#' sigma <- matrix(c(1, rho, rho, 1), nrow = 2)
+#' b <- 0.7
 #' 
-#' x <- MASS::mvrnorm(n, mu = c(mean_x, mean_y),
-#'                    Sigma = matrix(c(var_x, rho, rho, var_y), ncol = 2))
-#'                    
-#' plot_localgauss_diagonal(x)
+#' x <- rmvt(n, sigma = sigma, df = df)
+#' 
+#' plot_localgauss_diagonal(x, diag_low = -3, diag_high = 3)
 #' }
 
 plot_localgauss_diagonal <- function(dat, diag_low = -4, diag_high = 4, step_size = 0.1,
                                      b1 = 1, b2 = 1) {
     
-  # function logic based on data.frame
-  if(is.data.table(dat)) {
-    dat <- data.frame(dat)
+  # convert to matrix if necessary
+  if(!is.matrix(dat)) {
+    dat <- as.matrix(dat)
   }
   
   # values for which to calculate LGC
@@ -47,8 +48,11 @@ plot_localgauss_diagonal <- function(dat, diag_low = -4, diag_high = 4, step_siz
                           seq(diag_low, diag_high, step_size)),
                         ncol = 2)
   
-  lg.out <- localgauss(x = dat[, 1], y = dat[, 2], xy.mat = diag_matrix, b1 = b1, b2 = b2)
+  # estimate the LGC
+  lg.out <- localgauss::localgauss(x = dat[, 1], y = dat[, 2], xy.mat = diag_matrix,
+                                   b1 = b1, b2 = b2)
   
+  # plotting
   data.frame(diag = seq(diag_low, diag_high, step_size), rho = lg.out$par.est[, "rho"]) %>%
     ggplot(aes(x = diag, y = rho)) +
       geom_line() +
